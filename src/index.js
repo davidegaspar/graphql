@@ -1,18 +1,55 @@
 const { ApolloServer, gql } = require('apollo-server');
 
-// This is a (sample) collection of books we'll be able to query
-// the GraphQL server for.  A more complete example might fetch
-// from an existing data source like a REST API or database.
 const locationsTable = [
   {
+    "id": 0,
+    "name": "Shaft",
+    "country": "North Dakota"
+  },
+  {
     "id": 1,
-    "name": 'London',
-    "country": 'UK'
+    "name": "Bodega",
+    "country": "Northern Mariana Islands"
   },
   {
     "id": 2,
-    "name": 'Lisbon',
-    "country": 'Portugal'
+    "name": "Brooktrails",
+    "country": "Florida"
+  },
+  {
+    "id": 3,
+    "name": "Chloride",
+    "country": "Connecticut"
+  },
+  {
+    "id": 4,
+    "name": "Emerald",
+    "country": "Washington"
+  },
+  {
+    "id": 5,
+    "name": "Longoria",
+    "country": "New Hampshire"
+  },
+  {
+    "id": 6,
+    "name": "Cartwright",
+    "country": "Mississippi"
+  },
+  {
+    "id": 7,
+    "name": "Terlingua",
+    "country": "Arizona"
+  },
+  {
+    "id": 8,
+    "name": "Hickory",
+    "country": "Michigan"
+  },
+  {
+    "id": 9,
+    "name": "Cliffside",
+    "country": "Wisconsin"
   }
 ];
 
@@ -21,6 +58,21 @@ const flightsTable = [
     "id": 0,
     "from": 1,
     "to": 2
+  },
+  {
+    "id": 1,
+    "from": 3,
+    "to": 4
+  },
+  {
+    "id": 2,
+    "from": 4,
+    "to": 5
+  },
+  {
+    "id": 5,
+    "from": 8,
+    "to": 7
   }
 ];
 
@@ -32,7 +84,7 @@ const activitiesTable = [
       "18+",
       "climbing shoes",
     ],
-    dificulty: 2,
+    difficulty: 2,
     location: 1
   },
   {
@@ -43,7 +95,7 @@ const activitiesTable = [
       "apron",
       "woden spoon",
     ],
-    "dificulty": 1,
+    "difficulty": 1,
     "location": 2
   }
 ];
@@ -82,7 +134,7 @@ const typeDefs = gql`
     id: ID!
     name: String
     prerequisites: [String]
-    dificulty: Int
+    difficulty: Int
     location: Location
   }
 
@@ -95,6 +147,7 @@ const typeDefs = gql`
   type Query {
     hotels: [Hotel]
     locations: [Location]
+    flights: [Flight]
   }
 `;
 
@@ -114,6 +167,7 @@ const resolvers = {
   Query: {
     hotels: (root, args, { hotelsTable }) => hotelsTable,
     locations: (root, args, { locationsTable }) => locationsTable,
+    flights: (root, args, { flightsTable }) => flightsTable
   },
   Hotel: {
     location: ({ location }, _, { locationsTable }) => {
